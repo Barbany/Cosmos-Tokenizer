@@ -22,7 +22,7 @@ https://github.com/lucidrains/magvit2-pytorch/blob/
 9f49074179c912736e617d61b32be367eb5f993a/LICENSE
 """
 import math
-from typing import Tuple, Union
+from typing import List, Tuple, Union
 
 import numpy as np
 import torch
@@ -30,12 +30,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from loguru import logger as logging
 
-from cosmos_tokenizer.modules.patching import (
-    Patcher,
-    Patcher3D,
-    UnPatcher,
-    UnPatcher3D,
-)
+from cosmos_tokenizer.modules.patching import Patcher, Patcher3D, UnPatcher, UnPatcher3D
 from cosmos_tokenizer.modules.utils import (
     CausalNormalize,
     batch2space,
@@ -478,9 +473,9 @@ class EncoderBase(nn.Module):
         self,
         in_channels: int,
         channels: int,
-        channels_mult: list[int],
+        channels_mult: List[int],
         num_res_blocks: int,
-        attn_resolutions: list[int],
+        attn_resolutions: List[int],
         dropout: float,
         resolution: int,
         z_channels: int,
@@ -606,9 +601,9 @@ class DecoderBase(nn.Module):
         self,
         out_channels: int,
         channels: int,
-        channels_mult: list[int],
+        channels_mult: List[int],
         num_res_blocks: int,
-        attn_resolutions: list[int],
+        attn_resolutions: List[int],
         dropout: float,
         resolution: int,
         z_channels: int,
@@ -733,9 +728,9 @@ class EncoderFactorized(nn.Module):
         self,
         in_channels: int,
         channels: int,
-        channels_mult: list[int],
+        channels_mult: List[int],
         num_res_blocks: int,
-        attn_resolutions: list[int],
+        attn_resolutions: List[int],
         dropout: float,
         resolution: int,
         z_channels: int,
@@ -889,9 +884,9 @@ class DecoderFactorized(nn.Module):
         self,
         out_channels: int,
         channels: int,
-        channels_mult: list[int],
+        channels_mult: List[int],
         num_res_blocks: int,
-        attn_resolutions: list[int],
+        attn_resolutions: List[int],
         dropout: float,
         resolution: int,
         z_channels: int,

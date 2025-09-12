@@ -15,16 +15,13 @@
 """The continuous image tokenizer with VAE or AE formulation for 2D data."""
 
 from collections import OrderedDict, namedtuple
+from typing import Dict, Union
 
 import torch
 from loguru import logger as logging
 from torch import nn
 
-from cosmos_tokenizer.modules import (
-    ContinuousFormulation,
-    DecoderType,
-    EncoderType,
-)
+from cosmos_tokenizer.modules import ContinuousFormulation, DecoderType, EncoderType
 
 NetworkEval = namedtuple("NetworkEval", ["reconstructions", "posteriors", "latent"])
 
@@ -96,7 +93,7 @@ class ContinuousImageTokenizer(nn.Module):
         dec = self.decoder(z)
         return dec
 
-    def forward(self, input) -> dict[str, torch.Tensor] | NetworkEval:
+    def forward(self, input) -> Union[Dict[str, torch.Tensor], NetworkEval]:
         latent, posteriors = self.encode(input)
         dec = self.decode(latent)
         if self.training:

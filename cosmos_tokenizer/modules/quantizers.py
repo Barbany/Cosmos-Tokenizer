@@ -14,7 +14,7 @@
 # limitations under the License.
 """Quantizers for discrete image and video tokenization."""
 
-from typing import Optional
+from typing import List, Optional
 
 import numpy as np
 import torch
@@ -39,7 +39,7 @@ class ResidualFSQuantizer(nn.Module):
     Follows Algorithm 1. in https://arxiv.org/pdf/2107.03312.pdf
     """
 
-    def __init__(self, levels: list[int], num_quantizers: int, **ignore_kwargs):
+    def __init__(self, levels: List[int], num_quantizers: int, **ignore_kwargs):
         super().__init__()
         self.dtype = ignore_kwargs.get("dtype", torch.float32)
         self.layers = nn.ModuleList(
@@ -81,7 +81,7 @@ class FSQuantizer(nn.Module):
 
     def __init__(
         self,
-        levels: list[int],
+        levels: List[int],
         dim: Optional[int] = None,
         num_codebooks=1,
         keep_num_codebooks_dim: Optional[bool] = None,
@@ -243,7 +243,7 @@ class VectorQuantizer(nn.Module):
         num_embeddings: int,
         embedding_dim: int,
         beta: float = 0.25,
-        remap: str = None,
+        remap: Optional[str] = None,
         unknown_index: str = "random",
         sane_index_shape: bool = False,
         legacy: bool = True,

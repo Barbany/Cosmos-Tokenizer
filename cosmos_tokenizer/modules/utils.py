@@ -14,13 +14,13 @@
 # limitations under the License.
 """Shared utilities for the networks module."""
 
-from typing import Any
+from typing import Any, Tuple
 
 import torch
 from einops import pack, rearrange, unpack
 
 
-def time2batch(x: torch.Tensor) -> tuple[torch.Tensor, int]:
+def time2batch(x: torch.Tensor) -> Tuple[torch.Tensor, int]:
     batch_size = x.shape[0]
     return rearrange(x, "b c t h w -> (b t) c h w"), batch_size
 
@@ -29,7 +29,7 @@ def batch2time(x: torch.Tensor, batch_size: int) -> torch.Tensor:
     return rearrange(x, "(b t) c h w -> b c t h w", b=batch_size)
 
 
-def space2batch(x: torch.Tensor) -> tuple[torch.Tensor, int]:
+def space2batch(x: torch.Tensor) -> Tuple[torch.Tensor, int, int]:
     batch_size, height = x.shape[0], x.shape[-2]
     return rearrange(x, "b c t h w -> (b h w) c t"), batch_size, height
 

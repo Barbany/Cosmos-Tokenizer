@@ -50,7 +50,7 @@ from cosmos_tokenizer.utils import (
 )
 
 
-def _parse_args() -> tuple[Namespace, dict[str, Any]]:
+def _parse_args() -> Tuple[Namespace, Dict[str, Any]]:
     parser = ArgumentParser(
         description="A CLI for running ImageTokenizer on plain images."
     )

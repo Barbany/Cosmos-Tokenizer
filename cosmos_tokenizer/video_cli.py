@@ -51,7 +51,7 @@ from cosmos_tokenizer.utils import (
 from cosmos_tokenizer.video_lib import CausalVideoTokenizer
 
 
-def _parse_args() -> tuple[Namespace, dict[str, Any]]:
+def _parse_args() -> Tuple[Namespace, Dict[str, Any]]:
     parser = ArgumentParser(description="A CLI for CausalVideoTokenizer.")
     parser.add_argument(
         "--video_pattern",

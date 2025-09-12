@@ -34,10 +34,10 @@ from cosmos_tokenizer.utils import (
 class CausalVideoTokenizer(torch.nn.Module):
     def __init__(
         self,
-        checkpoint: str = None,
-        checkpoint_enc: str = None,
-        checkpoint_dec: str = None,
-        tokenizer_config: dict[str, Any] = None,
+        checkpoint: Optional[str] = None,
+        checkpoint_enc: Optional[str] = None,
+        checkpoint_dec: Optional[str] = None,
+        tokenizer_config: Dict[str, Any] = None,
         device: str = "cuda",
         dtype: str = "bfloat16",
     ) -> None:
@@ -80,7 +80,7 @@ class CausalVideoTokenizer(torch.nn.Module):
         return output_tensor
 
     @torch.no_grad()
-    def encode(self, input_tensor: torch.Tensor) -> tuple[torch.Tensor]:
+    def encode(self, input_tensor: torch.Tensor) -> Tuple[torch.Tensor]:
         """Encodes a numpy video into a CausalVideo latent or code.
 
         Args:

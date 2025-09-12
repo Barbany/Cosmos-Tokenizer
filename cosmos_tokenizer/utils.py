@@ -16,12 +16,11 @@
 
 import os
 from glob import glob
-from typing import Any
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import mediapy as media
 import numpy as np
 import torch
-from PIL import Image
 
 from cosmos_tokenizer.networks import TokenizerModels
 
@@ -32,10 +31,10 @@ _TEMPORAL_ALIGN = 8
 
 
 def load_model(
-    jit_filepath: str = None,
-    tokenizer_config: dict[str, Any] = None,
+    jit_filepath: Optional[str] = None,
+    tokenizer_config: Optional[Dict[str, Any]] = None,
     device: str = "cuda",
-) -> torch.nn.Module | torch.jit.ScriptModule:
+) -> Union[torch.nn.Module, torch.jit.ScriptModule]:
     """Loads a torch.nn.Module from a filepath.
 
     Args:
@@ -52,10 +51,10 @@ def load_model(
 
 
 def load_encoder_model(
-    jit_filepath: str = None,
-    tokenizer_config: dict[str, Any] = None,
+    jit_filepath: Optional[str] = None,
+    tokenizer_config: Optional[Dict[str, Any]] = None,
     device: str = "cuda",
-) -> torch.nn.Module | torch.jit.ScriptModule:
+) -> Union[torch.nn.Module, torch.jit.ScriptModule]:
     """Loads a torch.nn.Module from a filepath.
 
     Args:
@@ -73,10 +72,10 @@ def load_encoder_model(
 
 
 def load_decoder_model(
-    jit_filepath: str = None,
-    tokenizer_config: dict[str, Any] = None,
+    jit_filepath: Optional[str] = None,
+    tokenizer_config: Optional[Dict[str, Any]] = None,
     device: str = "cuda",
-) -> torch.nn.Module | torch.jit.ScriptModule:
+) -> Union[torch.nn.Module, torch.jit.ScriptModule]:
     """Loads a torch.nn.Module from a filepath.
 
     Args:
@@ -94,7 +93,9 @@ def load_decoder_model(
 
 
 def _load_pytorch_model(
-    jit_filepath: str = None, tokenizer_config: str = None, device: str = "cuda"
+    jit_filepath: Optional[str] = None,
+    tokenizer_config: Optional[Dict[str, Any]] = None,
+    device: str = "cuda",
 ) -> torch.nn.Module:
     """Loads a torch.nn.Module from a filepath.
 
@@ -111,7 +112,7 @@ def _load_pytorch_model(
 
 
 def load_jit_model(
-    jit_filepath: str = None, device: str = "cuda"
+    jit_filepath: Optional[str] = None, device: str = "cuda"
 ) -> torch.jit.ScriptModule:
     """Loads a torch.jit.ScriptModule from a filepath.
 
@@ -126,8 +127,10 @@ def load_jit_model(
 
 
 def save_jit_model(
-    model: torch.jit.ScriptModule | torch.jit.RecursiveScriptModule = None,
-    jit_filepath: str = None,
+    model: Optional[
+        Union[torch.jit.ScriptModule, torch.jit.RecursiveScriptModule]
+    ] = None,
+    jit_filepath: Optional[str] = None,
 ) -> None:
     """Saves a torch.jit.ScriptModule or torch.jit.RecursiveScriptModule to file.
 
@@ -138,13 +141,13 @@ def save_jit_model(
     torch.jit.save(model, jit_filepath)
 
 
-def get_filepaths(input_pattern) -> list[str]:
+def get_filepaths(input_pattern) -> List[str]:
     """Returns a list of filepaths from a pattern."""
     filepaths = sorted(glob(str(input_pattern)))
     return list(set(filepaths))
 
 
-def get_output_filepath(filepath: str, output_dir: str = None) -> str:
+def get_output_filepath(filepath: str, output_dir: Optional[str] = None) -> str:
     """Returns the output filepath for the given input filepath."""
     output_dir = output_dir or f"{os.path.dirname(filepath)}/reconstructions"
     output_filepath = f"{output_dir}/{os.path.basename(filepath)}"
@@ -191,7 +194,7 @@ def read_video(filepath: str) -> np.ndarray:
     return video
 
 
-def resize_image(image: np.ndarray, short_size: int = None) -> np.ndarray:
+def resize_image(image: np.ndarray, short_size: Optional[int] = None) -> np.ndarray:
     """Resizes an image to have the short side of `short_size`.
 
     Args:
@@ -288,7 +291,7 @@ def tensor2numpy(input_tensor: torch.Tensor, range_min: int = -1) -> np.ndarray:
 
 def pad_image_batch(
     batch: np.ndarray, spatial_align: int = _SPATIAL_ALIGN
-) -> tuple[np.ndarray, list[int]]:
+) -> Tuple[np.ndarray, List[int]]:
     """Pads a batch of images to be divisible by `spatial_align`.
 
     Args:
@@ -325,7 +328,7 @@ def pad_video_batch(
     batch: np.ndarray,
     temporal_align: int = _TEMPORAL_ALIGN,
     spatial_align: int = _SPATIAL_ALIGN,
-) -> tuple[np.ndarray, list[int]]:
+) -> Tuple[np.ndarray, List[int]]:
     """Pads a batch of videos to be divisible by `temporal_align` or `spatial_align`.
 
     Zero pad spatially. Reflection pad temporally to handle causality better.
@@ -378,7 +381,7 @@ def pad_video_batch(
     return batch, crop_region
 
 
-def unpad_video_batch(batch: np.ndarray, crop_region: list[int]) -> np.ndarray:
+def unpad_video_batch(batch: np.ndarray, crop_region: List[int]) -> np.ndarray:
     """Unpads video with `crop_region`.
 
     Args:
@@ -393,7 +396,7 @@ def unpad_video_batch(batch: np.ndarray, crop_region: list[int]) -> np.ndarray:
     return batch[..., f1:f2, y1:y2, x1:x2, :]
 
 
-def unpad_image_batch(batch: np.ndarray, crop_region: list[int]) -> np.ndarray:
+def unpad_image_batch(batch: np.ndarray, crop_region: List[int]) -> np.ndarray:
     """Unpads image with `crop_region`.
 
     Args:

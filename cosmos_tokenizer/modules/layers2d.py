@@ -23,6 +23,7 @@ https://github.com/CompVis/stable-diffusion/blob/
 """
 
 import math
+from typing import List
 
 import numpy as np
 
@@ -152,9 +153,9 @@ class Encoder(nn.Module):
         self,
         in_channels: int,
         channels: int,
-        channels_mult: list[int],
+        channels_mult: List[int],
         num_res_blocks: int,
-        attn_resolutions: list[int],
+        attn_resolutions: List[int],
         dropout: float,
         resolution: int,
         z_channels: int,
@@ -261,7 +262,7 @@ class Decoder(nn.Module):
         self,
         out_channels: int,
         channels: int,
-        channels_mult: list[int],
+        channels_mult: List[int],
         num_res_blocks: int,
         attn_resolutions: int,
         dropout: float,
