@@ -15,7 +15,7 @@
 
 """Setup for pip package."""
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 # Read requirements
 with open('requirements.txt') as f:
@@ -34,7 +34,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/NVIDIA/Cosmos-Tokenizer",
     packages=find_packages(),
-    python_requires=">=3.10",
+    python_requires=">=3.8",
     install_requires=requirements,
     exclude=["assets", "test_data"],
     entry_points={
